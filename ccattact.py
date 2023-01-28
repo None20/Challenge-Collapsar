@@ -108,7 +108,7 @@ if __name__ == "__main__":
     proxies_list=get_proxies()
     print("[Info]>Setup completed")
     count=len(proxies_list)
-    print("[Info]>Start attact")
+    print("[Info]>Start attack")
     for i in range(2):
         threading.Thread(target=run).start()
         
