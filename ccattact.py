@@ -5,8 +5,7 @@ import threading
 import time
 import datetime
 import sys
-
-Choice=random.choice 
+ 
 referers = [
 	"https://www.google.com/search?q=",
 	"https://check-host.net/",
