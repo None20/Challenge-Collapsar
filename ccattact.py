@@ -103,6 +103,13 @@ def run():
         threading.Thread(target=cc).start()
 
 if __name__ == "__main__": 
+    print("""
+   ____________   ___   __  __             __ 
+  / ____/ ____/  /   | / /_/ /_____ ______/ /_
+ / /   / /      / /| |/ __/ __/ __ `/ ___/ __/
+/ /___/ /___   / ___ / /_/ /_/ /_/ / /__/ /_
+\____/\____/  /_/  |_\__/\__/\__,_/\___/\__/
+""")
     url=input("URL:")
     print("[Info]>Ready to setup")
     proxies_list=get_proxies()
